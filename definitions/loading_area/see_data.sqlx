@@ -1,0 +1,10 @@
+config {
+  type: "operations",
+  database: "trip-record-data",  
+  schema: "load_staging_layer",   
+  name: "TEST"
+}
+
+SELECT *
+FROM `trip-record-data.load_staging_layer.TEST`
+LIMIT 10;

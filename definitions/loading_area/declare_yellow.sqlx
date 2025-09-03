@@ -1,0 +1,8 @@
+    config {
+      type: "declaration",
+      database: "trip-record-data",
+      schema: "load_staging_layer",
+      name: "yellow_tripdata_2025-01",
+    }
+
+
