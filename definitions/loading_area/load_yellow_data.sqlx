@@ -1,0 +1,37 @@
+    config {
+      type: "operations",
+      hasOutput: true,
+      database: "trip-record-data",
+      schema: "load_staging_layer",
+      name: "yellow_tripdata",
+    }
+
+
+    LOAD DATA OVERWRITE ${self()} (
+
+          VendorID		INTEGER,
+          tpep_pickup_datetime		TIMESTAMP	,
+          tpep_dropoff_datetime		TIMESTAMP	,
+          passenger_count		INTEGER	,
+          trip_distance		FLOAT64	,
+          RatecodeID		INTEGER	,
+          store_and_fwd_flag		STRING	,
+          PULocationID		INTEGER	,
+          DOLocationID		INTEGER	,
+          payment_type		INTEGER	,
+          fare_amount		FLOAT64	,
+          extra		FLOAT64	,
+          mta_tax		FLOAT64	,
+          tip_amount		FLOAT64	,
+          tolls_amount		FLOAT64	,
+          improvement_surcharge		FLOAT64	,
+          total_amount		FLOAT64	,
+          congestion_surcharge		FLOAT64	,
+          Airport_fee		FLOAT64	,
+          cbd_congestion_fee		FLOAT64	)
+          FROM FILES (
+  format = 'PARQUET',
+  uris = ['gs://trip_record_data/yellow_tripdata_2025-01.parquet']);
+
+
+ 
