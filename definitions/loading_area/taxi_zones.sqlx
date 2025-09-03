@@ -18,9 +18,9 @@
 
     LOAD DATA OVERWRITE ${self()} (
 
-        LocationID	INTEGER	
-        Borough	STRING	
-        Zone	STRING	
+        LocationID	INTEGER	,
+        Borough	STRING	,
+        Zone	STRING	,
         service_zone STRING	
     FROM FILES (
     format = 'csv',
