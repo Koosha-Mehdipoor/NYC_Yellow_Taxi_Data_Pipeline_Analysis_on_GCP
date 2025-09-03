@@ -1,4 +1,6 @@
 defaultProject: trip-record-data
 defaultDataset: dataform
+defaultLocation: us-south1
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.26
+
