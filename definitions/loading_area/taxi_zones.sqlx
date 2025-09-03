@@ -23,7 +23,13 @@
         Zone	STRING	,
         service_zone STRING	)
     FROM FILES (
-    format = 'csv',
+    format = 'CSV',
+    quote = '"',
+    field_delimiter=',',
+    allow_quoted_newlines = True,
+    skip_leading_rows = 1,
+    encoding = 'ISO-8859-1',
+    max_bad_records = 0,
     uris = ['gs://trip_record_data/taxi_zone_lookup.csv']);
 
 
