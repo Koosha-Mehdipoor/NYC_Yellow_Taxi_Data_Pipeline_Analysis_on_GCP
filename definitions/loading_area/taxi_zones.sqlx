@@ -21,7 +21,7 @@
         LocationID	INTEGER	,
         Borough	STRING	,
         Zone	STRING	,
-        service_zone STRING	
+        service_zone STRING	)
     FROM FILES (
     format = 'csv',
     uris = ['gs://trip_record_data/taxi_zone_lookup.csv']);
