@@ -1,0 +1,9 @@
+config {
+  type: "operations",
+  database: "trip-record-data",  
+  schema: "load_staging_layer",   
+  name: "test_new"
+}
+
+SELECT *
+FROM `trip-record-data.load_staging_layer.TEST`
