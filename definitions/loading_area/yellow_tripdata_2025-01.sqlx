@@ -1,9 +1,0 @@
-config {
-  type: "view",
-  database: "trip-record-data",  
-  schema: "load_staging_layer",   
-  name: "v_yellow_data"
-}
-
-SELECT * 
-FROM ${ref("yellow_tripdata_2025-01")}
