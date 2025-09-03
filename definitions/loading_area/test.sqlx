@@ -2,7 +2,7 @@ config {
   type: "view",
   database: "trip-record-data",  
   schema: "load_staging_layer",   
-  name: "test_new"
+  name: "V_test_new"
 }
 
 SELECT *
