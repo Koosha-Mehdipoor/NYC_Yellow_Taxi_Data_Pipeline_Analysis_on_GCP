@@ -1,0 +1,30 @@
+    config {
+      type: "operations",
+      hasOutput: true,
+      database: "trip-record-data",
+      schema: "load_staging_layer",
+      name: "taxi_zones",
+        description: "This table is a dimension for Taxi zones  ",
+      columns: {
+        LocationID: "Identifier of the location",
+        Borough: "Borough of the trip started or ended",
+        Zone: " Zone where the trip was started or ended",
+        service_zone: "Service zone of the related Taxi",
+  
+
+        }
+    }
+
+
+    LOAD DATA OVERWRITE ${self()} (
+
+        LocationID	INTEGER	
+        Borough	STRING	
+        Zone	STRING	
+        service_zone STRING	
+    FROM FILES (
+    format = 'csv',
+    uris = ['gs://trip_record_data/taxi_zone_lookup.csv']);
+
+
+ 
