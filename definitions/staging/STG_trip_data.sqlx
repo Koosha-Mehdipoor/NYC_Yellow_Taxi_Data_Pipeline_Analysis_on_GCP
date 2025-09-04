@@ -7,7 +7,7 @@ config {
 
     database: "trip-record-data",
     schema: "load_staging_layer",
-    name: "STG_yellow_tripdata",
+    name: "STG_trip_data",
 }
 
 SELECT
