@@ -2,7 +2,7 @@ config {
     type: "incremental",
     uniqueKey: ["trip_id"],
     bigquery: {
-    partitionBy: "DATE(pickup_datetime)",
+    partitionBy: "DATE(tpep_pickup_datetime)",
   },
 
     database: "trip-record-data",
