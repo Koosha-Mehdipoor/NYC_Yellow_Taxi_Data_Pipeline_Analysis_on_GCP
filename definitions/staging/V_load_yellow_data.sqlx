@@ -9,8 +9,9 @@ config {
 WITH
   BASE AS(
   SELECT
-  -- creating trip id which can help us to have unique id for our table for future modeling deduplicating process. it is multiplied by -1 because it was creating negative numbers which I didnt like.
-    -1 * FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) AS trip_id,
+  -- creating trip id which can help us to have unique id for our table for future modeling deduplicating process. the abs make sure that the id is always positive.
+    ABS(FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) ))) AS trip_id,
+    --CASE WHEN FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) > 0 THEN FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) ELSE -1 * FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) END trip_id,
     VendorID AS VendorID,
     CASE
       WHEN VendorID = 1 THEN "Creative Mobile Technologies LLC"
