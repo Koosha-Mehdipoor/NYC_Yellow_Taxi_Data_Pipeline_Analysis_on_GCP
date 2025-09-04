@@ -68,7 +68,7 @@ WITH
     ${ref("yellow_tripdata")} )
 SELECT
   *,
-  ROW_NUMBER() OVER(PARTITION BY trip_id ORDER BY pickup_datetime DESC) AS row_num -- deduplicating data over the trip_id
+  ROW_NUMBER() OVER(PARTITION BY trip_id ORDER BY tpep_pickup_datetime DESC) AS row_num -- deduplicating data over the trip_id
 FROM
   BASE
 QUALIFY
