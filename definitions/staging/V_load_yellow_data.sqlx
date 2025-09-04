@@ -1,13 +1,12 @@
-    config {
-      type: "view",
-      database: "trip-record-data",
-      schema: "load_staging_layer",
-      name: "V_yellow_tripdata",
+config {
+    type: "view",
+    database: "trip-record-data",
+    schema: "load_staging_layer",
+    name: "V_yellow_tripdata",
 
-      }
+}
 
-
-      SELECT
+SELECT
   VendorID AS VendorID,
   CASE
     WHEN VendorID = 1 THEN "Creative Mobile Technologies LLC"
@@ -57,7 +56,7 @@ END
   total_amount AS total_amount,
   congestion_surcharge AS congestion_surcharge,
   Airport_fee AS Airport_fee,
-  cbd_congestion_fee AS cbd_congestion_fee      
-
-      FROM ${ref("yellow_tripdata")}
-
+  cbd_congestion_fee AS cbd_congestion_fee,
+  CURRENT_TIMESTAMP() AS file_ingestion_time
+FROM
+  ${ref("yellow_tripdata")}
