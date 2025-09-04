@@ -23,7 +23,7 @@ WITH
     vendor_name,
     "yellow" AS taxi_type,
     tpep_pickup_datetime AS tpep_pickup_datetime,
-    tpep_dropoff_datetime AS tpep_dropoff_datetime
+    tpep_dropoff_datetime AS tpep_dropoff_datetime,
     passenger_count AS passenger_count,
     trip_distance AS trip_distance,
     RatecodeID AS RatecodeID,
