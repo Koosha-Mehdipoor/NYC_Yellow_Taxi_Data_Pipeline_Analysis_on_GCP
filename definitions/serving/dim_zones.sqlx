@@ -1,0 +1,11 @@
+config {
+    type: "table",
+    database: "trip-record-data",
+    schema: "serving_layer",
+    name: "dim_zones",
+
+}
+
+SELECT * 
+FROM 
+  ${ref("V_taxi_zones")}
