@@ -1,0 +1,12 @@
+config {
+    type: "operations",
+    hasOutput: true,
+    database: "trip-record-data",
+    schema: "load_staging_layer",
+    name: "V_taxi_zones",
+
+}
+
+SELECT * , CURRENT_TIMESTAMP AS file_ingestion_time
+FROM 
+  ${ref("taxi_zones")}
