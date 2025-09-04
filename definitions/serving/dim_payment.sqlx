@@ -1,0 +1,13 @@
+config {
+    type: "table",
+    database: "trip-record-data",
+    schema: "serving_layer",
+    name: "dim_payment",
+
+}
+
+SELECT
+  payment_type,
+  paymenttype_name
+FROM
+  ${ref(V_STG_yellow_data)}
