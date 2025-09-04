@@ -1,5 +1,6 @@
 config {
-  type: "operations",      
+  type: "operations",   
+  hasOutput:true,   
   database: "trip-record-data",
   schema: "serving_layer",
   name: "dim_date",
