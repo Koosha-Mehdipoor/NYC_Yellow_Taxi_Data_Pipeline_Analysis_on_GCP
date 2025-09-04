@@ -7,6 +7,7 @@ config {
 }
 
 SELECT
+  FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) AS trip_id,
   VendorID AS VendorID,
   CASE
     WHEN VendorID = 1 THEN "Creative Mobile Technologies LLC"
