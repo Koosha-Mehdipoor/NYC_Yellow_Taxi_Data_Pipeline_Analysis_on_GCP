@@ -53,7 +53,8 @@
           total_amount		FLOAT64	,
           congestion_surcharge		FLOAT64	,
           Airport_fee		FLOAT64	,
-          cbd_congestion_fee		FLOAT64	)
+          cbd_congestion_fee		FLOAT64
+          )
           FROM FILES (
   format = 'PARQUET',
   uris = ['gs://trip_record_data/yellow_tripdata_*.parquet']);
