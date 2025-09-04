@@ -1,0 +1,17 @@
+config {
+    type: "incremental",
+    uniqueKey: ["trip_id"],
+    bigquery: {
+    partitionBy: "DATE(pickup_datetime)",
+  },
+
+    database: "trip-record-data",
+    schema: "load_staging_layer",
+    name: "STG_yellow_tripdata",
+}
+
+SELECT
+  * EXCEPT(row_num),
+  CURRENT_TIMESTAMP() AS INSERTION_DATE
+FROM
+  ${ref("V_yellow_tripdata")}
