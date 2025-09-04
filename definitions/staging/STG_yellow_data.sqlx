@@ -12,6 +12,7 @@ config {
 
 SELECT
   * EXCEPT(row_num),
+  
   CURRENT_TIMESTAMP() AS INSERTION_DATE
 FROM
   ${ref("V_yellow_tripdata")}
