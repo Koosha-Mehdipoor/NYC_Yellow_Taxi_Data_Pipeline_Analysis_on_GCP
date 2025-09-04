@@ -4,6 +4,7 @@
       database: "trip-record-data",
       schema: "load_staging_layer",
       name: "yellow_tripdata",
+      
         description: "This table is desgined full refresh for ingesting raw data from different buckets from GCS.",
       columns: {
         VendorID: "A code indicating the TPEP provider that provided the record. 1 = Creative Mobile Technologies, LLC 2 = Curb Mobility, LLC 6 = Myle Technologies Inc 7 = Helix",
@@ -55,7 +56,7 @@
           cbd_congestion_fee		FLOAT64	)
           FROM FILES (
   format = 'PARQUET',
-  uris = ['gs://trip_record_data/yellow_tripdata_2025-01.parquet']);
+  uris = ['gs://trip_record_data/yellow_tripdata_*.parquet']);
 
 
  
