@@ -21,8 +21,12 @@ WITH
       ELSE "ND"
   END
     vendor_name,
-    tpep_pickup_datetime AS pickup_datetime,
-    tpep_dropoff_datetime AS dropoff_datetime,
+    DATE(tpep_pickup_datetime) AS pickup_date,
+    DATE(tpep_dropoff_datetime) AS dropoff_date,
+    EXTRACT(HOUR FROM tpep_pickup_datetime) AS pickup_hour,
+    EXTRACT(MINUTE FROM tpep_pickup_datetime) AS pickup_minute,
+    EXTRACT(HOUR FROM tpep_dropoff_datetime) AS droppoff_hour,
+    EXTRACT(MINUTE FROM tpep_dropoff_datetime) AS droppoff_minute,
     passenger_count AS passenger_count,
     trip_distance AS trip_distance,
     RatecodeID AS RatecodeID,
