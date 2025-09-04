@@ -1,6 +1,5 @@
 config {
-  type: "operations",   
-  hasOutput:true,   
+  type: "table",    
   database: "trip-record-data",
   schema: "serving_layer",
   name: "dim_date",
@@ -10,7 +9,7 @@ config {
 
 WITH calendar AS (
   SELECT day
-  FROM UNNEST(GENERATE_DATE_ARRAY('2023-01-01', '2027-12-31')) AS day
+  FROM UNNEST(GENERATE_DATE_ARRAY('2023-01-01', '2030-12-31')) AS day
 )
 SELECT
   CAST(FORMAT_DATE('%Y%m%d', day) AS INT64) AS date_id,  
@@ -23,4 +22,4 @@ SELECT
   EXTRACT(ISOWEEK FROM day) AS week_of_year,
   CASE WHEN EXTRACT(DAYOFWEEK FROM day) IN (1,7) THEN TRUE ELSE FALSE END AS is_weekend
 FROM calendar
-ORDER BY day;
+ORDER BY day
