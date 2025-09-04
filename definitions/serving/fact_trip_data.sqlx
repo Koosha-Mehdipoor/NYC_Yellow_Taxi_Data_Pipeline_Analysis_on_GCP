@@ -31,4 +31,4 @@ total_amount,
 congestion_surcharge,
 Airport_fee,
 cbd_congestion_fee	
-FROM ${ref("STG_trip_data")} 
+FROM ${ref("V_STG_trip_data")} 
