@@ -6,58 +6,68 @@ config {
 
 }
 
+WITH
+  BASE AS(
+  SELECT
+  -- creating trip id which can help us to have unique id for our table for future modeling deduplicating process. it is multiplied by -1 because it was creating negative numbers which I didnt like.
+    -1 * FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) AS trip_id,
+    VendorID AS VendorID,
+    CASE
+      WHEN VendorID = 1 THEN "Creative Mobile Technologies LLC"
+      WHEN VendorID = 2 THEN "Curb Mobility LLC"
+      WHEN VendorID = 6 THEN "Myle Technologies Inc"
+      WHEN VendorID = 7 THEN "Helix"
+      ELSE "ND"
+  END
+    vendor_name,
+    tpep_pickup_datetime AS pickup_datetime,
+    tpep_dropoff_datetime AS dropoff_datetime,
+    passenger_count AS passenger_count,
+    trip_distance AS trip_distance,
+    RatecodeID AS RatecodeID,
+    CASE
+      WHEN RatecodeID = 1 THEN "Standard rate"
+      WHEN RatecodeID = 2 THEN "JFK"
+      WHEN RatecodeID = 3 THEN "Newark"
+      WHEN RatecodeID = 4 THEN "Nassau or Westchester"
+      WHEN RatecodeID = 5 THEN "Negotiated fare"
+      WHEN RatecodeID = 6 THEN "Group ride"
+      WHEN RatecodeID = 99 THEN "unknown"
+      ELSE "ND"
+  END
+    rate_type,
+    store_and_fwd_flag AS store_and_fwd_flag,
+    PULocationID AS PULocationID,
+    DOLocationID AS DOLocationID,
+    payment_type AS payment_type,
+    CASE
+      WHEN payment_type = 0 THEN "Flex Fare trip"
+      WHEN payment_type = 1 THEN "Credit card"
+      WHEN payment_type = 2 THEN "Cash"
+      WHEN payment_type = 3 THEN "No charge"
+      WHEN payment_type = 4 THEN "Dispute"
+      WHEN payment_type = 5 THEN"Unknown"
+      WHEN payment_type = 6 THEN "Voided trip"
+      ELSE "ND"
+  END
+    paymenttype_name,
+    fare_amount AS fare_amount,
+    extra AS extra,
+    mta_tax AS mta_tax,
+    tip_amount AS tip_amount,
+    tolls_amount AS tolls_amount,
+    improvement_surcharge AS improvement_surcharge,
+    total_amount AS total_amount,
+    congestion_surcharge AS congestion_surcharge,
+    Airport_fee AS Airport_fee,
+    cbd_congestion_fee AS cbd_congestion_fee,
+    CURRENT_TIMESTAMP() AS file_ingestion_time
+  FROM
+    ${ref("yellow_tripdata")} )
 SELECT
-  FARM_FINGERPRINT(CONCAT( CAST(VendorID AS STRING), CAST(tpep_pickup_datetime AS STRING), CAST(tpep_dropoff_datetime AS STRING), CAST(PULocationID AS STRING), CAST(DOLocationID AS STRING), CAST(total_amount AS STRING) )) AS trip_id,
-  VendorID AS VendorID,
-  CASE
-    WHEN VendorID = 1 THEN "Creative Mobile Technologies LLC"
-    WHEN VendorID = 2 THEN "Curb Mobility LLC"
-    WHEN VendorID = 6 THEN "Myle Technologies Inc"
-    WHEN VendorID = 7 THEN "Helix"
-    ELSE "ND"
-END
-  vendor_name,
-  tpep_pickup_datetime AS pickup_datetime,
-  tpep_dropoff_datetime AS dropoff_datetime,
-  passenger_count AS passenger_count,
-  trip_distance AS trip_distance,
-  RatecodeID AS RatecodeID,
-  CASE
-    WHEN RatecodeID = 1 THEN "Standard rate"
-    WHEN RatecodeID = 2 THEN "JFK"
-    WHEN RatecodeID = 3 THEN "Newark"
-    WHEN RatecodeId = 4 THEN "Nassau or Westchester"
-    WHEN RatecodeID = 5 THEN "Negotiated fare"
-    WHEN RatecodeID = 6 THEN "Group ride"
-    WHEN RatecodeID = 99 THEN "unknown"
-    ELSE "ND"
-END
-  rate_type,
-  store_and_fwd_flag AS store_and_fwd_flag,
-  PULocationID AS PULocationID,
-  DOLocationID AS DOLocationID,
-  payment_type AS payment_type,
-  CASE
-    WHEN payment_type = 0 THEN "Flex Fare trip"
-    WHEN payment_type = 1 THEN "Credit card"
-    WHEN payment_type = 2 THEN "Cash"
-    WHEN payment_type = 3 THEN "No charge"
-    WHEN payment_type = 4 THEN "Dispute"
-    WHEN payment_type = 5 THEN"Unknown"
-    WHEN payment_type = 6 THEN "Voided trip"
-    ELSE "ND"
-END
-  paymenttype_name,
-  fare_amount AS fare_amount,
-  extra AS extra,
-  mta_tax AS mta_tax,
-  tip_amount AS tip_amount,
-  tolls_amount AS tolls_amount,
-  improvement_surcharge AS improvement_surcharge,
-  total_amount AS total_amount,
-  congestion_surcharge AS congestion_surcharge,
-  Airport_fee AS Airport_fee,
-  cbd_congestion_fee AS cbd_congestion_fee,
-  CURRENT_TIMESTAMP() AS file_ingestion_time
+  *,
+  ROW_NUMBER() OVER(PARTITION BY trip_id ORDER BY pickup_datetime DESC) AS row_num -- deduplicating data over the trip_id
 FROM
-  ${ref("yellow_tripdata")}
+  BASE
+QUALIFY
+  row_num = 1
