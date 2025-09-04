@@ -5,6 +5,7 @@ config {
     name: "V_STG_trip_data",
 }
 
+SELECT
 trip_id AS trip_id,
 VendorID AS VendorID,
 vendor_name AS vendor_name,
