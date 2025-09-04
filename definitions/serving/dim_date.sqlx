@@ -1,36 +1,29 @@
+CREATE SCHEMA IF NOT EXISTS `trip-record-data.serving_layer`
+OPTIONS(location="us-south1");
+
+
 config {
-  type: "operations",
-  hasOutput: true,
+  type: "operations",      
   database: "trip-record-data",
   schema: "serving_layer",
   name: "dim_date",
-  description: "Date dimension table for star schema",
-  columns: {
-    date_id: "Surrogate key in YYYYMMDD format",
-    date: "The calendar date",
-    year: "Year",
-    quarter: "Quarter",
-    month: "Month",
-    day_of_month: "Day of month",
-    day_of_week: "Day of week (1=Sunday)",
-    week_of_year: "ISO week number",
-    is_weekend: "TRUE if Saturday or Sunday"
-  }
+  description: "Date dimension table for star schema"
 }
+
 
 WITH calendar AS (
   SELECT day
   FROM UNNEST(GENERATE_DATE_ARRAY('2023-01-01', '2027-12-31')) AS day
 )
 SELECT
-  FORMAT_DATE('%Y%m%d', day) AS date_id,
+  CAST(FORMAT_DATE('%Y%m%d', day) AS INT64) AS date_id,  
   day AS date,
   EXTRACT(YEAR FROM day) AS year,
   EXTRACT(QUARTER FROM day) AS quarter,
   EXTRACT(MONTH FROM day) AS month,
   EXTRACT(DAY FROM day) AS day_of_month,
-  EXTRACT(DAYOFWEEK FROM day) AS day_of_week,
+  EXTRACT(DAYOFWEEK FROM day) AS day_of_week,     
   EXTRACT(ISOWEEK FROM day) AS week_of_year,
   CASE WHEN EXTRACT(DAYOFWEEK FROM day) IN (1,7) THEN TRUE ELSE FALSE END AS is_weekend
 FROM calendar
-ORDER BY day
+ORDER BY day;
