@@ -8,6 +8,7 @@ config {
 
 
 SELECT
+DISTINCT
   VendorID,
   vendor_name
 FROM
