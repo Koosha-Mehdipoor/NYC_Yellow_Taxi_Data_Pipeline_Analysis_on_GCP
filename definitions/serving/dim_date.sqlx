@@ -1,7 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS `trip-record-data.serving_layer`
-OPTIONS(location="us-south1");
-
-
 config {
   type: "operations",      
   database: "trip-record-data",
