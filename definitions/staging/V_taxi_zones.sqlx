@@ -1,6 +1,5 @@
 config {
-    type: "operations",
-    hasOutput: true,
+    type: "view",
     database: "trip-record-data",
     schema: "load_staging_layer",
     name: "V_taxi_zones",
