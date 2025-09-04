@@ -11,4 +11,4 @@ SELECT
   VendorID,
   vendor_name
 FROM
-  ${ref(V_STG_yellow_data)}
+  ${ref("V_STG_trip_data")}
