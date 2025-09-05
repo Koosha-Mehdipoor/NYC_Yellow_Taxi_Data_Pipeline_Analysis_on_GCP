@@ -12,6 +12,8 @@ config {
 
 SELECT 
 trip_id,
+EXTRACT(MONTH FROM pickup_date) AS MONTH -- the best approach is to create a join with date dim but in this case for now we
+-- are not focusing a lot on dates at this stage so simply I extracted month
 pickup_date,
 dropoff_date,
 passenger_count,
