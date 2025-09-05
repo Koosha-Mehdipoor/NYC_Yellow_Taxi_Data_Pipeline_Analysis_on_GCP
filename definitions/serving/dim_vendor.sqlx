@@ -1,3 +1,5 @@
+
+-- this dimension is not necessary in this case and can be considered in the fact table but in general this approach can be usefull if there are some changes in the future
 config {
     type: "table",
     database: "trip-record-data",
