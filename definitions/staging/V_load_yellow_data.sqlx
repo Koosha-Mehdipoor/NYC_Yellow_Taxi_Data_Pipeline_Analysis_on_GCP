@@ -24,7 +24,7 @@ WITH
     "yellow" AS taxi_type,
     tpep_pickup_datetime AS tpep_pickup_datetime,
     tpep_dropoff_datetime AS tpep_dropoff_datetime,
-    passenger_count AS passenger_count,
+    IFNULL(passenger_count,1) AS passenger_count,
     trip_distance AS trip_distance,
     RatecodeID AS RatecodeID,
     CASE
@@ -61,7 +61,7 @@ WITH
     improvement_surcharge AS improvement_surcharge,
     total_amount AS total_amount,
     congestion_surcharge AS congestion_surcharge,
-    Airport_fee AS Airport_fee,
+    IFNULL(Airport_fee,0.0) AS Airport_fee,
     cbd_congestion_fee AS cbd_congestion_fee,
     CURRENT_TIMESTAMP() AS file_ingestion_time
   FROM
