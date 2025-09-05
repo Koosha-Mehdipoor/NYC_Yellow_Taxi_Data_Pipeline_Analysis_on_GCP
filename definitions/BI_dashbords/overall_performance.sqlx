@@ -1,0 +1,36 @@
+-- here after drafting the dashboard on paper we have decided to create a materialized view of the neccesary columns for
+-- creating dashboard, it is defined as materialized to avoid costs, because the latency for this project and dashboard is not
+-- important the materialized view does not need to query the data in each refresh on dashboard and can keep data in cache.
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "overall_performance",
+
+}
+
+SELECT 
+trip_id,
+pickup_date,
+dropoff_date,
+passenger_count,
+trip_distance,
+fare_amount,
+extra,
+mta_tax,
+tip_amount,
+tolls_amount,
+improvement_surcharge,
+total_amount,
+congestion_surcharge,
+Airport_fee,
+cbd_congestion_fee,
+v.vendor_name,
+p.paymenttype_name
+
+FROM  ${ref("fact_trip_data")} f
+LEFT JOIN  ${ref("dim_vendor")} v
+ON f.VendorID = v.VendorID
+LEFT JOIN ${ref("dim_payment")} p
+ON f.payment_type = p.payment_type
