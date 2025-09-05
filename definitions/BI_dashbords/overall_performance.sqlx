@@ -27,7 +27,8 @@ congestion_surcharge,
 Airport_fee,
 cbd_congestion_fee,
 v.vendor_name,
-p.paymenttype_name
+p.paymenttype_name,
+IFNULL(SAFE_DIVIDE(total_amount, trip_distance), 0) AS avg_fare_per_mile
 
 FROM  ${ref("fact_trip_data")} f
 LEFT JOIN  ${ref("dim_vendor")} v
