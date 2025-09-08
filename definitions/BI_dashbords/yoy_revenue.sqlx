@@ -1,0 +1,51 @@
+config {
+  type: "view",
+  materialized: true,
+  database: "trip-record-data",
+  schema: "BI_dashboards",
+  name: "yoy_revenue",
+}
+
+WITH monthly_revenue AS (
+  SELECT
+    d.year AS year,
+    DATE_TRUNC(f.pickup_date, MONTH) AS month_date,
+    SUM(f.total_amount) AS revenue
+  FROM
+    ${ref("fact_trip_data")} f
+  JOIN
+    ${ref("dim_date")} d
+  ON
+    f.pickup_date = d.date
+  GROUP BY
+    1,2
+),
+joined AS (
+  SELECT
+    cy.year AS cy_year,
+    cy.month_date AS cy_month_date,
+    cy.revenue AS cy_revenue,
+    py.revenue AS py_revenue
+  FROM
+    monthly_revenue cy
+  LEFT JOIN
+    monthly_revenue py
+  ON cy.month_date = DATE_ADD(py.month_date, INTERVAL 1 YEAR) 
+)
+SELECT
+  cy_year,
+  cy_month_date,
+  cy_revenue,
+  py_revenue,
+  CASE
+    WHEN py_revenue = 0 AND cy_revenue > 0 THEN 1
+    -- treat as 100% growth
+    WHEN py_revenue IS NULL THEN NULL
+    -- no data for last year
+    ELSE SAFE_DIVIDE(cy_revenue - py_revenue, py_revenue)
+  END AS yoy_growth
+FROM
+  joined
+ORDER BY
+  cy_year,
+  cy_month_date
