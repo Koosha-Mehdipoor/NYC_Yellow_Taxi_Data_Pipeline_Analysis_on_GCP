@@ -1,0 +1,23 @@
+config {
+    type: "operations",
+    hasOutput: true,
+    database: "trip-record-data",
+    schema: "load_staging_layer",
+    name: "taxi_zones_gecode",
+    }
+
+LOAD DATA OVERWRITE
+  ${self()} ( zone_id INT64,
+    zone_name STRING,
+    borough STRING,
+    zone_geom STRING )
+FROM FILES ( format = 'CSV',
+    quote = '"',
+    field_delimiter=',',
+    allow_quoted_newlines = TRUE,
+    skip_leading_rows = 1,
+    encoding = 'ISO-8859-1',
+    max_bad_records = 0,
+    uris = ['gs://trip_record_data/bq-results-20250908-132309-1757337805577.csv']);
+
+
