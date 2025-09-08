@@ -1,6 +1,5 @@
 config {
   type: "view",
-  materialized: true,
   database: "trip-record-data",
   schema: "BI_dashboards",
   name: "yoy_revenue",
