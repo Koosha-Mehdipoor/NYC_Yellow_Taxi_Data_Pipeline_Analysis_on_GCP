@@ -2,10 +2,19 @@ config {
     type: "view",
     database: "trip-record-data",
     schema: "load_staging_layer",
-    name: "V_taxi_zones",
+    name: "V_taxi_zones"
 
 }
 
-SELECT * , CURRENT_TIMESTAMP AS file_ingestion_time
+SELECT 
+LocationID,
+z.Borough AS Borough,
+Zone,
+service_zone,
+zone_geom,
+CURRENT_TIMESTAMP AS file_ingestion_time
 FROM 
-  ${ref("taxi_zones")}
+  ${ref("taxi_zones")} z
+LEFT JOIN ${ref("taxi_zones_gecode")} geo
+ON z.LocationID = geo.zone_id
+
