@@ -1,13 +1,15 @@
 config {
-  type: "view",
-  database: "trip-record-data",
-  schema: "BI_dashboards",
-  name: "yoy_revenue",
+    type: "view",
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "yoy_revenue",
 }
 
-WITH monthly_revenue AS (
+WITH
+  monthly_revenue AS (
   SELECT
     d.year AS year,
+    v.vendor_name AS vendor_name,
     DATE_TRUNC(f.pickup_date, MONTH) AS month_date,
     SUM(f.total_amount) AS revenue
   FROM
@@ -16,12 +18,22 @@ WITH monthly_revenue AS (
     ${ref("dim_date")} d
   ON
     f.pickup_date = d.date
+  LEFT JOIN
+    ${ref("dim_vendor")} v
+  ON
+    f.VendorID = v.VendorID
+  LEFT JOIN
+    ${ref("dim_payment")} p
+  ON
+    f.payment_type = p.payment_type
   GROUP BY
-    1,2
-),
-joined AS (
+    1,
+    2,
+    3 ),
+  joined AS (
   SELECT
     cy.year AS cy_year,
+    cy.vendor_name AS vendor_name,
     cy.month_date AS cy_month_date,
     cy.revenue AS cy_revenue,
     py.revenue AS py_revenue
@@ -29,20 +41,22 @@ joined AS (
     monthly_revenue cy
   LEFT JOIN
     monthly_revenue py
-  ON cy.month_date = DATE_ADD(py.month_date, INTERVAL 1 YEAR) 
-)
+  ON
+    cy.month_date = DATE_ADD(py.month_date, INTERVAL 1 YEAR) )
 SELECT
   cy_year,
   cy_month_date,
+  vendor_name,
   cy_revenue,
   py_revenue,
   CASE
     WHEN py_revenue = 0 AND cy_revenue > 0 THEN 1
-    -- treat as 100% growth
+  -- treat as 100% growth
     WHEN py_revenue IS NULL THEN NULL
-    -- no data for last year
+  -- no data for last year
     ELSE SAFE_DIVIDE(cy_revenue - py_revenue, py_revenue)
-  END AS yoy_growth
+END
+  AS yoy_growth
 FROM
   joined
 ORDER BY
