@@ -1,0 +1,21 @@
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "peak_weekdays",
+    tags: ["peaks"]
+
+}
+
+
+SELECT 
+year,
+day_of_week,
+weekday_name,
+COUNT(trip_id) AS trip_count
+
+FROM  ${ref("fact_trip_data")} f
+LEFT JOIN ${ref("dim_date")} pd
+ON f.pickup_date = pd.date
+GROUP BY 1,2,3
