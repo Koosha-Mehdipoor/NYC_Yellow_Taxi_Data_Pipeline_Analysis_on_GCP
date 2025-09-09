@@ -10,8 +10,9 @@ config {
 
 
 SELECT 
+EXTRACT(YEAR FROM pickup_date) AS pickup_year,
 EXTRACT(MONTH FROM pickup_date) AS pickup_month,
 COUNT(trip_id) AS trip_count
 
 FROM  ${ref("fact_trip_data")} f
-GROUP BY 1
+GROUP BY 1,2
