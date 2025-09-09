@@ -1,8 +1,8 @@
 config {
     type: "table",
     bigquery: {
-        partitionBy: "DATE(pickup_date)",
-        clusterBy: ["zone_geog"]
+        partitionBy: "pickup_date",
+        clusterBy: ["pickup_zone_geog"]
     },
     database: "trip-record-data",
     schema: "BI_dashboards",
