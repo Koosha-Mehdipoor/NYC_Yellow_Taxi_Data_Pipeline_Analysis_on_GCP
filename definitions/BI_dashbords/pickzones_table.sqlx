@@ -2,7 +2,6 @@ config {
     type: "table",
     bigquery: {
         partitionBy: "pickup_date",
-        clusterBy: ["pickup_zone_geog"]
     },
     database: "trip-record-data",
     schema: "BI_dashboards",
@@ -22,7 +21,7 @@ SELECT
   drz.Borough AS dropoff_Borough,
   drz.Zone AS dropoff_Zone,
   drz.service_zone AS dropoff_service_zone,
-  ANY_VALUE(drz.zone_geog) AS dropoff_zone_geog,
+  ANY_VALUE(ST_CENTROID(drz.zone_geog)) AS dropoff_zone_geog,
   dropoff_date,
   dd.is_weekend AS dropoff_is_weekend,
   COUNT(f.trip_id)AS trip_count
