@@ -4,6 +4,7 @@ config {
     database: "trip-record-data",
     schema: "BI_dashboards",
     name: "peak_zones",
+    tags: ["peaks"]
 
 }
 
