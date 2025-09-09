@@ -15,6 +15,8 @@ SELECT
   puz.Zone AS pickup_Zone,
   puz.service_zone AS pickup_service_zone,
   ANY_VALUE(puz.zone_geog) AS pickup_zone_geog,
+  ANY_VALUE(ST_Y(ST_CENTROID(puz.zone_geog))) AS pickup_lat,
+  ANY_VALUE(ST_X(ST_CENTROID(puz.zone_geog))) AS pickup_lng,
   pickup_date,
   pd.is_weekend AS pickup_is_weekend,
   --dropoff data
