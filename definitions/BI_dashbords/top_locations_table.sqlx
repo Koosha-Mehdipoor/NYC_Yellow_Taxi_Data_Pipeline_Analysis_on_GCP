@@ -1,0 +1,29 @@
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "top_zones_table",
+    tags: ["peaks"]
+
+}
+
+SELECT
+  puz.Zone AS pickup_Zone,
+  pickup_date,
+
+  COUNT(f.trip_id)AS trip_count
+FROM
+  ${ref("fact_trip_data")} f
+LEFT JOIN
+  ${ref("dim_zones")} puz
+ON
+  f.PULocationID = puz.LocationID
+LEFT JOIN
+  ${ref("dim_date")} pd
+ON
+  f.pickup_date = pd.date
+GROUP BY
+  pickup_date,
+  pickup_Zone
+
