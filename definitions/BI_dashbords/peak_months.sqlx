@@ -1,0 +1,16 @@
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "peak_months",
+
+}
+
+
+SELECT 
+EXTRACT(MONTH FROM pickup_date) AS pickup_month,
+COUNT(DISTINCT trip_id) AS trip_count
+
+FROM  ${ref("fact_trip_data")} f
+GROUP BY 1
