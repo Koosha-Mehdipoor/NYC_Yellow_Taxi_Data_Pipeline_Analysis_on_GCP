@@ -22,7 +22,7 @@ SELECT
   ANY_VALUE(drz.zone_geog) AS dropoff_zone_geog,
   dropoff_date,
   dd.is_weekend AS dropoff_is_weekend,
-  COUNT(DISTINCT f.trip_id)AS trip_count
+  COUNT(f.trip_id)AS trip_count
 FROM
   ${ref("fact_trip_data")} f
 LEFT JOIN

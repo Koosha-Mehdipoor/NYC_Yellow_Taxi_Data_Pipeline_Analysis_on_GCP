@@ -15,7 +15,7 @@ pd.is_weekend AS pickup_is_weekend,
 --dropoff data
 droppoff_hour,
 dd.is_weekend AS dropoff_is_weekend,
-COUNT(DISTINCT trip_id) AS trip_count
+COUNT(trip_id) AS trip_count
 
 FROM  ${ref("fact_trip_data")} f
 LEFT JOIN ${ref("dim_date")} pd
