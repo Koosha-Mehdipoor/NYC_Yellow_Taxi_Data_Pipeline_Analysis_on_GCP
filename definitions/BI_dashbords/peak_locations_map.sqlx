@@ -1,0 +1,25 @@
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "peak_locations",
+    tags: ["peaks"]
+
+}
+
+SELECT
+  --puz.zone_geog AS pickup_zone_geog,
+  CONCAT( CAST(ST_Y(ST_CENTROID(puz.zone_geog)) AS STRING), ",", CAST(ST_X(ST_CENTROID(puz.zone_geog)) AS STRING) ) AS pickup_latlng,
+  COUNT(f.trip_id) AS trip_id_count
+FROM
+  ${ref("fact_trip_data")} f
+LEFT JOIN
+  ${ref("dim_zones")} puz
+ON
+  f.PULocationID = puz.LocationID
+WHERE
+  ST_Y(ST_CENTROID(puz.zone_geog)) IS NOT NULL
+  AND ST_X(ST_CENTROID(puz.zone_geog)) IS NOT NULL
+GROUP BY
+  1
