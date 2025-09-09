@@ -11,7 +11,7 @@ LocationID,
 z.Borough AS Borough,
 Zone,
 service_zone,
-zone_geom,
+ST_GEOGFROMTEXT(zone_geom) AS zone_geog,
 CURRENT_TIMESTAMP AS file_ingestion_time
 FROM 
   ${ref("taxi_zones")} z
