@@ -18,7 +18,8 @@ SELECT
   EXTRACT(QUARTER FROM day) AS quarter,
   EXTRACT(MONTH FROM day) AS month,
   EXTRACT(DAY FROM day) AS day_of_month,
-  EXTRACT(DAYOFWEEK FROM day) AS day_of_week,     
+  EXTRACT(DAYOFWEEK FROM day) AS day_of_week,
+  FORMAT_DATE('%A',day) weekday_name,  
   EXTRACT(ISOWEEK FROM day) AS week_of_year,
   CASE WHEN EXTRACT(DAYOFWEEK FROM day) IN (1,7) THEN TRUE ELSE FALSE END AS is_weekend
 FROM calendar
