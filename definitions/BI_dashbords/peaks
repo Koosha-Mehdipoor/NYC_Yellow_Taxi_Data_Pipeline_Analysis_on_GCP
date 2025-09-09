@@ -1,0 +1,54 @@
+config {
+    type: "view",
+    materialized: true,
+    database: "trip-record-data",
+    schema: "BI_dashboards",
+    name: "peaks",
+
+}
+
+WITH BASE AS (
+SELECT 
+trip_id,
+puz.Borough AS pickup_Borough,
+puz.Zone AS pickup_Zone,
+puz.service_zone AS pickup_service_zone,
+puz.zone_geog AS pickup_zone_geog,
+pickup_date,
+pickup_hour,
+pickup_minute,
+pd.year AS pickup_year,
+pd.quarter AS pickup_quarter,
+pd.month AS pickup_month,
+pd.day_of_month AS pickup_day_of_month,
+pd.day_of_week AS pickup_day_of_week,
+pd.week_of_year AS pickup_week_of_year,
+pd.is_weekend AS pickup_is_weekend,
+--dropoff data
+drz.Borough AS dropoff_Borough,
+drz.Zone AS dropoff_Zone,
+drz.service_zone AS dropoff_service_zone,
+drz.zone_geog AS dropoff_zone_geog,
+dropoff_date,
+droppoff_hour,
+droppoff_minute,
+dd.year AS dropoff_year,
+dd.quarter AS dropoff_quarter,
+dd.month AS dropoff_month,
+dd.day_of_month AS dropoff_day_of_month,
+dd.day_of_week AS dropoff_day_of_week,
+dd.week_of_year AS dropoff_week_of_year,
+dd.is_weekend AS dropoff_is_weekend
+
+FROM  ${ref("fact_trip_data")} f
+LEFT JOIN ${ref("dim_zones")} puz
+ON f.PULocationID = puz.LocationID
+LEFT JOIN ${ref("dim_zones")} drz
+ON f.DOLocationID = drz.LocationID
+LEFT JOIN ${ref("dim_date")} pd
+ON f.pickup_date = pd.date
+LEFT JOIN ${ref("dim_date")} dd
+ON f.dropoff_date = dd.date
+
+)
+SELECT * FROM BASE
