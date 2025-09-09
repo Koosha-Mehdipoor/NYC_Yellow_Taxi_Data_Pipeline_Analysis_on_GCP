@@ -1,6 +1,5 @@
 config {
-    type: "view",
-    materialized: true,
+    type: "table",
     database: "trip-record-data",
     schema: "BI_dashboards",
     name: "peak_hours",
