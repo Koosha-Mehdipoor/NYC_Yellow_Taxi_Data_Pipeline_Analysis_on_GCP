@@ -73,3 +73,10 @@ This project uses the **NYC TLC Trip Record Data**, made publicly available by t
 
 The dataset is part of [NYC Open Data](https://opendata.cityofnewyork.us/),  
 licensed under the [Open Data Commons Public Domain Dedication and License (PDDL)](https://opendatacommons.org/licenses/pddl/).  
+
+
+
+
+![GCP](https://img.shields.io/badge/Cloud-GCP-blue)  
+![SQL](https://img.shields.io/badge/Language-SQL-green)  
+![Visualization](https://img.shields.io/badge/Tool-Looker%20Studio-orange)  
