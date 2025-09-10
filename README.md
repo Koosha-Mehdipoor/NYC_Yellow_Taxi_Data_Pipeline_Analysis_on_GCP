@@ -61,7 +61,12 @@ The final data is visualized in an interactive [Looker Studio Dashboard](https:/
 ### Page 2: Trip Behavior Analysis
 - Top 10 pickup zones and hotspot mapping by vendor.  
 - Distribution of trips by weekday and by hour of the day.  
-- Trends over time, including year-over-year comparisons of trip volumes.  
+- Trends over time, including year-over-year comparisons of trip volumes.
+
+
+## Future Improvments
+- Automate ingestion with Pub/Sub + Dataflow or dbt
+- more interactive dashborads (at this level it is avoided for the performance and costs considerations)
 
 ## Data Source & License
 This project uses the **NYC TLC Trip Record Data**, made publicly available by the  
