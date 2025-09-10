@@ -20,14 +20,15 @@ This project showcases an end-to-end data pipeline on **Google Cloud Platform (G
 
 ## Tech Stack
 - **Cloud**: GCP (Cloud Storage, BigQuery), Dataform
-- **Languages**: SQL, (optionally) Python
+- **Languages**: SQL
 - **Visualization**: Looker Studio
 
-## Repository Structure
+## Dataform Project Structure
 
-
-
-
+- **Loading Area** → Ingests data from Cloud Storage and creates raw base tables in BigQuery.  
+- **Staging Layer** → Cleans and deduplicates data, builds incremental tables with upsert logic for efficient updates.  
+- **Serving Layer** → Models data into a star schema for high-performance analytics and sharing across departments.  
+- **BI Dashboards** → Provides views and aggregated tables optimized for BI tools, reducing cost and improving dashboard speed.  
 
 
 
