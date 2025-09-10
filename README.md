@@ -30,6 +30,19 @@ This project showcases an end-to-end data pipeline on **Google Cloud Platform (G
 - **Serving Layer** → Models data into a star schema for high-performance analytics and sharing across departments.  
 - **BI Dashboards** → Provides views and aggregated tables optimized for BI tools, reducing cost and improving dashboard speed.  
 
+## Dashboard Insights
+
+The final data is visualized in an interactive [Looker Studio Dashboard](https://lookerstudio.google.com/reporting/b3caf304-18ff-41cd-9ee9-392a3d21c7e3).
+
+### Page 1: Overall Performance
+- Key KPIs: total fare revenue, total trips, average trip revenue, and average trip distance.  
+- Vendor comparison by revenue, trip count, and average fare.  
+- Breakdown of revenue by rate type and payment method.  
+
+### Page 2: Trip Behavior Analysis
+- Top 10 pickup zones and hotspot mapping by vendor.  
+- Distribution of trips by weekday and by hour of the day.  
+- Trends over time, including year-over-year comparisons of trip volumes.  
 
 
 
