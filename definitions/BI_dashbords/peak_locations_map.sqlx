@@ -9,7 +9,8 @@ config {
 }
 
 SELECT
-  --puz.zone_geog AS pickup_zone_geog,
+  vendor_name,
+  Zone,
   CONCAT( CAST(ST_Y(ST_CENTROID(puz.zone_geog)) AS STRING), ",", CAST(ST_X(ST_CENTROID(puz.zone_geog)) AS STRING) ) AS pickup_latlng,
   COUNT(f.trip_id) AS trip_id_count
 FROM
@@ -18,8 +19,10 @@ LEFT JOIN
   ${ref("dim_zones")} puz
 ON
   f.PULocationID = puz.LocationID
+LEFT JOIN  ${ref("dim_vendor")} v
+ON f.VendorID = v.VendorID
 WHERE
   ST_Y(ST_CENTROID(puz.zone_geog)) IS NOT NULL
   AND ST_X(ST_CENTROID(puz.zone_geog)) IS NOT NULL
 GROUP BY
-  1
+  1,2,3
