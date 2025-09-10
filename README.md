@@ -28,7 +28,28 @@ This project showcases an end-to-end data pipeline on **Google Cloud Platform (G
 - **Loading Area** → Ingests data from Cloud Storage and creates raw base tables in BigQuery.  
 - **Staging Layer** → Cleans and deduplicates data, builds incremental tables with upsert logic for efficient updates.  
 - **Serving Layer** → Models data into a star schema for high-performance analytics and sharing across departments.  
-- **BI Dashboards** → Provides views and aggregated tables optimized for BI tools, reducing cost and improving dashboard speed.  
+- **BI Dashboards** → Provides views and aggregated tables optimized for BI tools, reducing cost and improving dashboard speed.
+
+
+## Data Model
+
+
+The project follows a **star schema** design to optimize query performance in BigQuery and support analytics use cases.
+
+- **fact_trip_date**: Central fact table containing detailed trip-level records (pickup/dropoff times, distance, fares, surcharges, payment type, etc.).  
+- **dim_date**: Calendar dimension for temporal analysis (year, quarter, month, weekday, weekend flag).  
+- **dim_vendor**: Vendor dimension mapping Vendor IDs to vendor names.  
+- **dim_location**: Location dimension containing `LocationID`, borough, zone, service zone, and geometry for geospatial analysis.  
+- **dim_payment**: Payment dimension describing payment types and methods.
+
+This structure enables:
+- Efficient **joins** for BI dashboards (fact → dimension tables).  
+- Flexible analysis by **time, vendor, location, or payment type**.  
+- Support for reusable filters in Looker Studio (e.g., Zone filter can be applied globally via `dim_location.Zone`).
+
+<img width="534" height="624" alt="Screenshot 2025-09-10 at 11 33 27" src="https://github.com/user-attachments/assets/d17b0d00-2f18-4990-ae74-557d9a64b03e" />
+
+  
 
 ## Dashboard Insights
 
